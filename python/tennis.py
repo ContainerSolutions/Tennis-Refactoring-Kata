@@ -3,7 +3,8 @@
 score_map = {
     0: "Love",
     1: "Fifteen",
-    2: "Thirty"
+    2: "Thirty",
+    3: "Forty"
 }
 
 class TennisGame1:
@@ -21,6 +22,13 @@ class TennisGame1:
         return "{score}-All".format(
             score=score_map.get(self.p1points)
         )
+
+    def score_string_notdraw(self):
+        #if self.deuce: return "Deuce"
+        return "{score1}-{score2}".format(
+            score1=score_map.get(self.p1points),
+            score2=score_map.get(self.p2points)
+        )
         
     def won_point(self, playerName):
         if playerName == self.player1Name:
@@ -33,7 +41,6 @@ class TennisGame1:
     
     def score(self):
         result = ""
-        tempScore=0
 
         if (self.p1points==self.p2points):
             return self.score_string_draw()
@@ -50,19 +57,8 @@ class TennisGame1:
                 result ="Win for " + self.player2Name
             return result
 
-        for i in range(1,3):
-            if (i==1):
-                tempScore = self.p1points
-            else:
-                result+="-"
-                tempScore = self.p2points
-            result += {
-                0 : "Love",
-                1 : "Fifteen",
-                2 : "Thirty",
-                3 : "Forty",
-            }[tempScore]
-        return result
+        return self.score_string_notdraw()
+
 
 
 class TennisGame2:
