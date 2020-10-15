@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+score_map = {
+    0: "Love",
+    1: "Fifteen",
+    2: "Thirty"
+}
+
 class TennisGame1:
 
     def __init__(self, player1Name, player2Name):
@@ -8,23 +14,29 @@ class TennisGame1:
         self.p1points = 0
         self.p2points = 0
         self.minusResult = 0
+        self.deuce = False
+    
+    def score_string_draw(self):
+        if self.deuce: return "Deuce"
+        return "{score}-All".format(
+            score=score_map.get(self.p1points)
+        )
         
     def won_point(self, playerName):
         if playerName == self.player1Name:
             self.p1points += 1
         else:
             self.p2points += 1
+        if self.p1points == self.p2points and self.p1points == 3:
+            self.deuce = True
         self.minusResult = self.p1points-self.p2points
     
     def score(self):
         result = ""
         tempScore=0
+
         if (self.p1points==self.p2points):
-            return {
-                0 : "Love-All",
-                1 : "Fifteen-All",
-                2 : "Thirty-All",
-            }.get(self.p1points, "Deuce")
+            return self.score_string_draw()
 
         if (self.p1points>=4 or self.p2points>=4):
             minusResult = self.minusResult
