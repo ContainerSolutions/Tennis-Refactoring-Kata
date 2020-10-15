@@ -15,10 +15,9 @@ class TennisGame1:
         self.p1points = 0
         self.p2points = 0
         self.minusResult = 0
-        self.deuce = False
     
     def score_string_draw(self):
-        if self.deuce: return "Deuce"
+        if self.p1points>=3: return "Deuce"
         return "{score}-All".format(
             score=score_map.get(self.p1points)
         )
@@ -30,22 +29,20 @@ class TennisGame1:
         )
 
     def score_string_fortyplus(self):
-        if (self.minusResult==1):
-            return "Advantage " + self.player1Name
-        elif (self.minusResult ==-1):
-            return "Advantage " + self.player2Name
-        elif (self.minusResult>=2):
-            return "Win for " + self.player1Name
-        else:
-            return "Win for " + self.player2Name
+        score_string = "Advantage" if abs(self.minusResult)==1 else "Win for"
+
+        player = self.player2Name if self.minusResult<1 else self.player1Name
+
+        return "{score} {player}".format(
+            score=score_string,
+            player=player
+        )
         
     def won_point(self, playerName):
         if playerName == self.player1Name:
             self.p1points += 1
         else:
             self.p2points += 1
-        if self.p1points == self.p2points and self.p1points == 3:
-            self.deuce = True
         self.minusResult = self.p1points-self.p2points
     
     def score(self):
