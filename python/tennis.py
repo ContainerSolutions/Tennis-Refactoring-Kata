@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-score_map = {
-    0: "Love",
-    1: "Fifteen",
-    2: "Thirty",
-    3: "Forty"
-}
+
 
 class TennisGame1:
+    score_map = {
+        0: "Love",
+        1: "Fifteen",
+        2: "Thirty",
+        3: "Forty"
+    }
 
     def __init__(self, player1Name, player2Name):
         self.player1Name = player1Name
@@ -15,18 +16,19 @@ class TennisGame1:
         self.p1points = 0
         self.p2points = 0
         self.minusResult = 0
+
     
     def score_string_draw(self):
         if self.p1points>=3: return "Deuce"
         return "{score}-All".format(
-            score=score_map.get(self.p1points)
+            score=TennisGame1.score_map.get(self.p1points)
         )
 
     def score_string_notdraw(self):
         if not (self.p1points>=4 or self.p2points>=4):
             return "{score1}-{score2}".format(
-                score1=score_map.get(self.p1points),
-                score2=score_map.get(self.p2points)
+                score1=TennisGame1.score_map.get(self.p1points),
+                score2=TennisGame1.score_map.get(self.p2points)
             ) 
 
         score_string = "Advantage" if abs(self.minusResult)==1 else "Win for"
