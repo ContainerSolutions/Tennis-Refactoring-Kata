@@ -23,21 +23,20 @@ class TennisGame1:
         )
 
     def score_string_notdraw(self):
-        return "{score1}-{score2}".format(
-            score1=score_map.get(self.p1points),
-            score2=score_map.get(self.p2points)
-        )
+        if not (self.p1points>=4 or self.p2points>=4):
+            return "{score1}-{score2}".format(
+                score1=score_map.get(self.p1points),
+                score2=score_map.get(self.p2points)
+            ) 
 
-    def score_string_fortyplus(self):
         score_string = "Advantage" if abs(self.minusResult)==1 else "Win for"
-
         player = self.player2Name if self.minusResult<1 else self.player1Name
 
         return "{score} {player}".format(
             score=score_string,
             player=player
         )
-        
+
     def won_point(self, playerName):
         if playerName == self.player1Name:
             self.p1points += 1
@@ -48,9 +47,6 @@ class TennisGame1:
     def score(self):
         if (self.p1points==self.p2points):
             return self.score_string_draw()
-
-        if (self.p1points>=4 or self.p2points>=4):
-            return self.score_string_fortyplus()
 
         return self.score_string_notdraw()
 
