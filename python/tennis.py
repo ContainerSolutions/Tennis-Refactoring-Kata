@@ -16,7 +16,6 @@ class TennisGame1:
 
     def score(self):
         result = ""
-        tempScore = 0
         if (self.p1points == self.p2points):
             result = {
                 0: "Love-All",
@@ -33,19 +32,18 @@ class TennisGame1:
                 result = "Win for " + self.player1Name
             else:
                 result = "Win for " + self.player2Name
+        # just a regular score to parse
         else:
-            for i in range(1, 3):
-                if (i == 1):
-                    tempScore = self.p1points
-                else:
-                    result += "-"
-                    tempScore = self.p2points
-                result += {
-                    0: "Love",
-                    1: "Fifteen",
-                    2: "Thirty",
-                    3: "Forty",
-                }[tempScore]
+            score = {
+                0 : "Love",
+                1 : "Fifteen",
+                2 : "Thirty",
+                3 : "Forty",
+            }
+            result = '{}-{}'.format(
+                score[self.p1points],
+                score[self.p2points]
+            )
         return result
 
 
