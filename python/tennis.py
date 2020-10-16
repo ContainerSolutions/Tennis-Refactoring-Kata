@@ -22,16 +22,21 @@ class TennisGame1:
                 1: "Fifteen-All",
                 2: "Thirty-All",
             }.get(self.p1points, "Deuce")
+        # score is advantage or a win
         elif (self.p1points >= 4 or self.p2points >= 4):
-            minusResult = self.p1points-self.p2points
-            if (minusResult == 1):
-                result = "Advantage " + self.player1Name
-            elif (minusResult == -1):
-                result = "Advantage " + self.player2Name
-            elif (minusResult >= 2):
-                result = "Win for " + self.player1Name
+            player = ""
+            lead = 0
+            if self.p1points > self.p2points:
+                player = self.player1Name
+                lead = self.p1points - self.p2points
             else:
-                result = "Win for " + self.player2Name
+                player = self.player2Name
+                lead = self.p2points - self.p1points
+            result = {
+                # if the lead is 1 it's advantage,
+                #   if it's >= 2 then it's a win!
+                1: "Advantage " + player,
+            }.get(lead, "Win for " + player)
         # just a regular score to parse
         else:
             score = {
