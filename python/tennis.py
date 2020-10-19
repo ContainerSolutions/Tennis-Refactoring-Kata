@@ -20,7 +20,7 @@ class TennisGame1:
         elif (self.p1points>=4 or self.p2points>=4): 
             return self.advantage_or_win()
         else: 
-            return self.point_names()[self.p1points]+ "-"+ self.point_names()[self.p2points]
+            return self.point_to_strings()[self.p1points]+ "-"+ self.point_to_strings()[self.p2points]
 
     def draw(self):
         return {
@@ -39,9 +39,8 @@ class TennisGame1:
             return "Win for " + self.player1Name
         return "Win for " + self.player2Name
   
-    def point_names(self):
+    def point_to_strings(self):
         return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }
-
 
 class TennisGame2:
     def __init__(self, player1Name, player2Name):
@@ -57,12 +56,9 @@ class TennisGame2:
            self.p2points +=1
     
     def score(self):
-        #changed order to escape if condition is met
+        point_to_string =  { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }
 
-        if (self.p1points > self.p2points and self.p2points >= 3):
-            return "Advantage " + self.player1Name
-        if (self.p2points > self.p1points and self.p1points >= 3):
-            return "Advantage " + self.player2Name
+        #changed order to escape if condition is met
         if (self.p1points>=4 and self.p2points>=0 and (self.p1points-self.p2points)>=2):
             return "Win for " + self.player1Name
             
@@ -70,49 +66,43 @@ class TennisGame2:
             return "Win for " + self.player2Name
 
         if (self.p1points == self.p2points and self.p1points < 3):
-            return self.draw()
+            return point_to_string.get(self.p1points)+"-All"
+
         if (self.p1points==self.p2points and self.p1points>2):
             return "Deuce"
                
         if (self.p1points > 0 and self.p2points==0):
-            return self.p2_love(self.p1points)
+            return point_to_string.get(self.p1points) + "-" + "Love"
 
         if (self.p2points > 0 and self.p1points==0):
-            return self.p1_love(self.p2points)
+            return "Love"+"-" + point_to_string.get(self.p2points)
+
+        if (self.p1points>self.p2points and self.p1points < 4):
+            return point_to_string.get(self.p1points) + "-" + point_to_string.get(self.p2points)
 
         if (self.p2points>self.p1points and self.p2points < 4):
-            return self.player_wins(self.p1points, self.p2points)
+            return point_to_string.get(self.p1points) + "-" + point_to_string.get(self.p2points)
 
+        if (self.p1points > self.p2points and self.p2points >= 3):
+            return "Advantage " + self.player1Name
+        if (self.p2points > self.p1points and self.p1points >= 3):
+            return "Advantage " + self.player2Name
 
-    def player_wins(self, P1res, P2res):
-        return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P1res] + "-" + { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P2res]
+    # def p2_wins(self, P1res, P2res):
+    #     return {1 : "Fifteen", 2 : "Thirty"}[P1res] + "-" + {2 : "Thirty", 3 : "Forty" }[P2res]
 
     # def p1_wins(self, P1res, P2res):
-    #     return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P1res] + "-" + { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P2res]
+    #     return {2 : "Thirty", 3 : "Forty" }[P1res] + "-" + {1 : "Fifteen", 2 : "Thirty"}[P2res]
 
-    def p1_love(self, P2res):
-        return "Love"+"-"+{ 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P2res]
+    # def p1_love(self, P2res):
+    #     return "Love"+"-"+{ 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P2res]
 
-    def p2_love(self, P1res):
-        return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P1res]+"-"+"Love"
+    # def p2_love(self, P1res):
+    #     return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P1res]+"-"+"Love"
 
-    def draw(self):
-        return { 0 : "Love-All", 1 : "Fifteen-All", 2 : "Thirty-All"}.get(self.p2points)   
-    
-    # def SetP1Score(self, number):
-    #     for i in range(number):
-    #         self.P1Score()
-    
-    # def SetP2Score(self, number):
-    #     for i in range(number):
-    #         self.P2Score()
-    
-    # def P1Score(self):
-    #     self.p1points +=1
-   
-    # def P2Score(self):
-    #     self.p2points +=1
-        
+    # def draw(self, P1res):
+    #     return { 0 : "Love-All", 1 : "Fifteen-All", 2 : "Thirty-All"}.get(P1res)   
+            
 class TennisGame3:
     def __init__(self, player1Name, player2Name):
         self.p1N = player1Name
@@ -128,12 +118,11 @@ class TennisGame3:
     
     def score(self):
         if (self.p1 < 4 and self.p2 < 4) and (self.p1 + self.p2 < 6):
-            p = ["Love", "Fifteen", "Thirty", "Forty"]
-            s = p[self.p1]
-            return s + "-All" if (self.p1 == self.p2) else s + "-" + p[self.p2]
+            point_to_strings = ["Love", "Fifteen", "Thirty", "Forty"]
+            return  point_to_strings[self.p1] + "-All" if (self.p1 == self.p2) else  point_to_strings[self.p1] + "-" + point_to_strings[self.p2]
         else:
             if (self.p1 == self.p2):
                 return "Deuce"
-            s = self.p1N if self.p1 > self.p2 else self.p2N
-            return "Advantage " + s if ((self.p1-self.p2)*(self.p1-self.p2) == 1) else "Win for " + s
+            score = self.p1N if self.p1 > self.p2 else self.p2N
+            return "Advantage " + score if ((self.p1-self.p2)*(self.p1-self.p2) == 1) else "Win for " + score
 
