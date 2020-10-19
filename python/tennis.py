@@ -60,10 +60,7 @@ class TennisGame2:
         self.p2points = 0
 
     def won_point(self, playerName):
-        if playerName == self.player1Name:
-            self.P1Score()
-        else:
-            self.P2Score()
+        self.UpdateScore(playerName, 1)
 
     def score(self):
         result = ""
@@ -136,19 +133,11 @@ class TennisGame2:
             result = "Win for " + self.player2Name
         return result
 
-    def SetP1Score(self, number):
-        for i in range(number):
-            self.P1Score()
-
-    def SetP2Score(self, number):
-        for i in range(number):
-            self.P2Score()
-
-    def P1Score(self):
-        self.p1points += 1
-
-    def P2Score(self):
-        self.p2points += 1
+    def UpdateScore(self, player, count):
+        if player == self.player1Name:
+            self.p1points += count
+        else:
+            self.p2points += count
 
 
 class TennisGame3:
