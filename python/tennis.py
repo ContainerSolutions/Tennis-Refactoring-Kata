@@ -17,18 +17,11 @@ class TennisGame1:
     
     def score(self):
         if (self.p1points==self.p2points):
-            return self.draw()
+            return { 0 : "Love-All", 1 : "Fifteen-All", 2 : "Thirty-All" }.get(self.p1points, "Deuce")
         elif (self.p1points>=4 or self.p2points>=4): 
             return self.advantage_or_win()
         else: 
-            return self.point_to_strings.get(self.p1points)+ "-"+ self.point_to_strings.get(self.p2points)
-
-    def draw(self):
-        return {
-            0 : "Love-All",
-            1 : "Fifteen-All",
-            2 : "Thirty-All",
-        }.get(self.p1points, "Deuce")
+            return self.point_to_strings.get(self.p1points) + "-" + self.point_to_strings.get(self.p2points)
     
     def advantage_or_win(self):
         minusResult = self.p1points-self.p2points
@@ -69,12 +62,12 @@ class TennisGame2:
         if (self.p1points==self.p2points and self.p1points>2):
             return "Deuce"
        
-
         if (self.p1points>self.p2points and self.p1points < 4 or self.p2points>self.p1points and self.p2points < 4):
             return point_to_strings.get(self.p1points) + "-" + point_to_strings.get(self.p2points)
 
         if (self.p1points > self.p2points and self.p2points >= 3):
             return "Advantage " + self.player1Name
+            
         if (self.p2points > self.p1points and self.p1points >= 3):
             return "Advantage " + self.player2Name
                
