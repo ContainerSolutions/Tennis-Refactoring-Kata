@@ -75,25 +75,16 @@ class TennisGame2:
             self.P2Score()
     
     def score(self):
-        result = ""
         P1res = TennisGame2.score_map.get(self.p1points,"")
         P2res = TennisGame2.score_map.get(self.p2points,"")
+
         if (self.p1points == self.p2points and self.p1points < 3):
-            result="{score}-All".format(
-                score=TennisGame2.score_map.get(self.p1points)
-            )
+            result=P1res+"-All"
 
         if (self.p1points==self.p2points and self.p1points>2):
             result = "Deuce"
         
-        if (self.p2points > 0 and self.p1points==0):
-            result = P1res + "-" + P2res
-        
-        
-        if (self.p1points>self.p2points and self.p1points < 4):
-            result = P1res + "-" + P2res
-            
-        if (self.p2points>self.p1points and self.p2points < 4):
+        if (self.p1points>self.p2points and self.p1points < 4) or (self.p2points>self.p1points and self.p2points < 4): 
             result = P1res + "-" + P2res
         
         if (self.p1points > self.p2points and self.p2points >= 3):
