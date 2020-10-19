@@ -58,6 +58,11 @@ class TennisGame2:
     
     def score(self):
         #changed order to escape if condition is met
+
+        if (self.p1points > self.p2points and self.p2points >= 3):
+            return "Advantage " + self.player1Name
+        if (self.p2points > self.p1points and self.p1points >= 3):
+            return "Advantage " + self.player2Name
         if (self.p1points>=4 and self.p2points>=0 and (self.p1points-self.p2points)>=2):
             return "Win for " + self.player1Name
             
@@ -75,38 +80,15 @@ class TennisGame2:
         if (self.p2points > 0 and self.p1points==0):
             return self.p1_love(self.p2points)
 
-        if (self.p1points>self.p2points and self.p1points < 4):
-            return self.p1_wins(self.p1points, self.p2points)
-
         if (self.p2points>self.p1points and self.p2points < 4):
-            return self.p2_wins(self.p1points, self.p2points)
+            return self.player_wins(self.p1points, self.p2points)
 
-        if (self.p1points > self.p2points and self.p2points >= 3):
-            return "Advantage " + self.player1Name
-        if (self.p2points > self.p1points and self.p1points >= 3):
-            return "Advantage " + self.player2Name
 
-    def p2_wins(self, P1res, P2res):
-        if (self.p2points==2):
-            P2res="Thirty"
-        if (self.p2points==3):
-            P2res="Forty"
-        if (self.p1points==1):
-            P1res="Fifteen"
-        if (self.p1points==2):
-            P1res="Thirty"
-        return P1res + "-" + P2res
+    def player_wins(self, P1res, P2res):
+        return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P1res] + "-" + { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P2res]
 
-    def p1_wins(self, P1res, P2res):
-        if (self.p1points==2):
-            P1res="Thirty"
-        if (self.p1points==3):
-            P1res="Forty"
-        if (self.p2points==1):
-            P2res="Fifteen"
-        if (self.p2points==2):
-            P2res="Thirty"
-        return P1res + "-" + P2res
+    # def p1_wins(self, P1res, P2res):
+    #     return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P1res] + "-" + { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P2res]
 
     def p1_love(self, P2res):
         return "Love"+"-"+{ 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }[P2res]
