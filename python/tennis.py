@@ -40,10 +40,10 @@ class TennisGame1:
         # just a regular score to parse
         else:
             score = {
-                0 : "Love",
-                1 : "Fifteen",
-                2 : "Thirty",
-                3 : "Forty",
+                0: "Love",
+                1: "Fifteen",
+                2: "Thirty",
+                3: "Forty",
             }
             result = '{}-{}'.format(
                 score[self.p1points],
