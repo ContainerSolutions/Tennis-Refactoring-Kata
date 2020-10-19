@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class TennisGame1:
+    point_to_strings =  { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }
 
     def __init__(self, player1Name, player2Name):
         self.player1Name = player1Name
@@ -20,7 +21,7 @@ class TennisGame1:
         elif (self.p1points>=4 or self.p2points>=4): 
             return self.advantage_or_win()
         else: 
-            return self.point_to_strings()[self.p1points]+ "-"+ self.point_to_strings()[self.p2points]
+            return self.point_to_strings.get(self.p1points)+ "-"+ self.point_to_strings.get(self.p2points)
 
     def draw(self):
         return {
@@ -38,9 +39,6 @@ class TennisGame1:
         elif (minusResult>=2):
             return "Win for " + self.player1Name
         return "Win for " + self.player2Name
-  
-    def point_to_strings(self):
-        return { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }
 
 class TennisGame2:
     def __init__(self, player1Name, player2Name):
@@ -56,7 +54,7 @@ class TennisGame2:
            self.p2points +=1
     
     def score(self):
-        point_to_string =  { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }
+        point_to_strings =  { 0 : "Love", 1 : "Fifteen", 2 : "Thirty", 3 : "Forty", }
 
         #changed order to escape if condition is met
         if (self.p1points>=4 and self.p2points>=0 and (self.p1points-self.p2points)>=2):
@@ -66,22 +64,19 @@ class TennisGame2:
             return "Win for " + self.player2Name
 
         if (self.p1points == self.p2points and self.p1points < 3):
-            return point_to_string.get(self.p1points)+"-All"
+            return point_to_strings.get(self.p1points)+"-All"
 
         if (self.p1points==self.p2points and self.p1points>2):
             return "Deuce"
                
-        if (self.p1points > 0 and self.p2points==0):
-            return point_to_string.get(self.p1points) + "-" + "Love"
+        # if (self.p1points > 0 and self.p2points==0):
+        #     return point_to_strings.get(self.p1points) + "-" + "Love"
 
-        if (self.p2points > 0 and self.p1points==0):
-            return "Love"+"-" + point_to_string.get(self.p2points)
+        # if (self.p2points > 0 and self.p1points==0):
+        #     return "Love"+"-" + point_to_strings.get(self.p2points)
 
-        if (self.p1points>self.p2points and self.p1points < 4):
-            return point_to_string.get(self.p1points) + "-" + point_to_string.get(self.p2points)
-
-        if (self.p2points>self.p1points and self.p2points < 4):
-            return point_to_string.get(self.p1points) + "-" + point_to_string.get(self.p2points)
+        if (self.p1points>self.p2points and self.p1points < 4 or self.p2points>self.p1points and self.p2points < 4):
+            return point_to_strings.get(self.p1points) + "-" + point_to_strings.get(self.p2points)
 
         if (self.p1points > self.p2points and self.p2points >= 3):
             return "Advantage " + self.player1Name
