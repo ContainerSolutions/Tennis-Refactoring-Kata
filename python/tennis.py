@@ -18,8 +18,10 @@ class TennisGame1:
     def score(self):
         if (self.p1points==self.p2points):
             return { 0 : "Love-All", 1 : "Fifteen-All", 2 : "Thirty-All" }.get(self.p1points, "Deuce")
+
         elif (self.p1points>=4 or self.p2points>=4): 
             return self.advantage_or_win()
+            
         else: 
             return self.point_to_strings.get(self.p1points) + "-" + self.point_to_strings.get(self.p2points)
     
