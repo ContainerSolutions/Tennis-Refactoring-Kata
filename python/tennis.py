@@ -44,6 +44,12 @@ class TennisGame2:
         self.player2Name = player2Name
         self.p1points = 0
         self.p2points = 0
+        self.scores_dict = {
+                    0 : "Love",
+                    1 : "Fifteen",
+                    2 : "Thirty",
+                    3 : "Forty",
+                }
         
     def won_point(self, playerName):
         if playerName == self.player1Name:
@@ -51,83 +57,52 @@ class TennisGame2:
         else:
             self.P2Score()
     
+    def get_map_values(self, P1res, P2res):
+        P1res=self.scores_dict.get(self.p1points, "")
+        P2res=self.scores_dict.get(self.p2points, "")
+        return P1res, P2res
+
     def score(self):
         result = ""
+        P1res = ""
+        P2res = ""
+
         if (self.p1points == self.p2points and self.p1points < 3):
-            if (self.p1points==0):
-                result = "Love"
-            if (self.p1points==1):
-                result = "Fifteen"
-            if (self.p1points==2):
-                result = "Thirty"
+            result, _ = self.get_map_values(P1res, P2res)
             result += "-All"
         if (self.p1points==self.p2points and self.p1points>2):
             result = "Deuce"
         
-        P1res = ""
-        P2res = ""
+
         if (self.p1points > 0 and self.p2points==0):
-            if (self.p1points==1):
-                P1res = "Fifteen"
-            if (self.p1points==2):
-                P1res = "Thirty"
-            if (self.p1points==3):
-                P1res = "Forty"
-            
+            P1res, P2res = self.get_map_values(P1res, P2res)
             P2res = "Love"
             result = P1res + "-" + P2res
         if (self.p2points > 0 and self.p1points==0):
-            if (self.p2points==1):
-                P2res = "Fifteen"
-            if (self.p2points==2):
-                P2res = "Thirty"
-            if (self.p2points==3):
-                P2res = "Forty"
-            
+            P1res, P2res = self.get_map_values(P1res, P2res)
             P1res = "Love"
             result = P1res + "-" + P2res
         
         
         if (self.p1points>self.p2points and self.p1points < 4):
-            if (self.p1points==2):
-                P1res="Thirty"
-            if (self.p1points==3):
-                P1res="Forty"
-            if (self.p2points==1):
-                P2res="Fifteen"
-            if (self.p2points==2):
-                P2res="Thirty"
+            P1res, P2res = self.get_map_values(P1res, P2res)
             result = P1res + "-" + P2res
         if (self.p2points>self.p1points and self.p2points < 4):
-            if (self.p2points==2):
-                P2res="Thirty"
-            if (self.p2points==3):
-                P2res="Forty"
-            if (self.p1points==1):
-                P1res="Fifteen"
-            if (self.p1points==2):
-                P1res="Thirty"
+            P1res, P2res = self.get_map_values(P1res, P2res)
             result = P1res + "-" + P2res
+
         
         if (self.p1points > self.p2points and self.p2points >= 3):
             result = "Advantage " + self.player1Name
-        
         if (self.p2points > self.p1points and self.p1points >= 3):
             result = "Advantage " + self.player2Name
         
+
         if (self.p1points>=4 and self.p2points>=0 and (self.p1points-self.p2points)>=2):
             result = "Win for " + self.player1Name
         if (self.p2points>=4 and self.p1points>=0 and (self.p2points-self.p1points)>=2):
             result = "Win for " + self.player2Name
         return result
-    
-    def SetP1Score(self, number):
-        for i in range(number):
-            self.P1Score()
-    
-    def SetP2Score(self, number):
-        for i in range(number):
-            self.P2Score()
     
     def P1Score(self):
         self.p1points +=1
