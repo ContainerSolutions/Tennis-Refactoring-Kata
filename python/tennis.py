@@ -1,172 +1,129 @@
 # -*- coding: utf-8 -*-
 
+
 class TennisGame1:
+    FIRST = 0
+    SECOND = 1
+    RESULTS = ["Love", "Fifteen", "Thirty", "Forty"]
+    ALL = "-All"
 
     def __init__(self, player1Name, player2Name):
-        self.player1Name = player1Name
-        self.player2Name = player2Name
-        self.p1points = 0
-        self.p2points = 0
-        
+        self.player_ids = {
+            player1Name: TennisGame1.FIRST,
+            player2Name: TennisGame1.SECOND
+        }
+
+        self.id_players = {
+            TennisGame1.FIRST: player1Name,
+            TennisGame1.SECOND: player2Name
+        }
+
+        self.scoreboard = [0, 0]
+
     def won_point(self, playerName):
-        if playerName == self.player1Name:
-            self.p1points += 1
-        else:
-            self.p2points += 1
-    
+        self.scoreboard[self.player_ids[playerName]] += 1
+
     def score(self):
-        result = ""
-        tempScore=0
-        if (self.p1points==self.p2points):
-            result = {
-                0 : "Love-All",
-                1 : "Fifteen-All",
-                2 : "Thirty-All",
-            }.get(self.p1points, "Deuce")
-        elif (self.p1points>=4 or self.p2points>=4):
-            minusResult = self.p1points-self.p2points
-            if (minusResult==1):
-                result ="Advantage " + self.player1Name
-            elif (minusResult ==-1):
-                result ="Advantage " + self.player2Name
-            elif (minusResult>=2):
-                result = "Win for " + self.player1Name
+
+        if self.scoreboard[TennisGame1.FIRST] == self.scoreboard[TennisGame1.SECOND]:
+            score = self.scoreboard[TennisGame1.FIRST]
+            return TennisGame1.RESULTS[score] + TennisGame1.ALL if score < 3 else "Deuce"
+        elif any(i >= 4 for i in self.scoreboard):
+            diff = self.scoreboard[TennisGame1.FIRST] - self.scoreboard[TennisGame1.SECOND]
+
+            if diff < 0:
+                name = self.id_players[TennisGame1.SECOND]
             else:
-                result ="Win for " + self.player2Name
+                name = self.id_players[TennisGame1.FIRST]
+
+            if abs(diff) >= 2:
+                return "Win for " + name
+            else:
+                return "Advantage " + name
         else:
-            for i in range(1,3):
-                if (i==1):
-                    tempScore = self.p1points
-                else:
-                    result+="-"
-                    tempScore = self.p2points
-                result += {
-                    0 : "Love",
-                    1 : "Fifteen",
-                    2 : "Thirty",
-                    3 : "Forty",
-                }[tempScore]
-        return result
+            return TennisGame1.RESULTS[self.scoreboard[TennisGame1.FIRST]] + "-" + TennisGame1.RESULTS[
+                self.scoreboard[TennisGame1.SECOND]]
+
+            # if (self.p1points==self.p2points):
+        #     result = {
+        #         0 : "Love-All",
+        #         1 : "Fifteen-All",
+        #         2 : "Thirty-All",
+        #     }.get(self.p1points, "Deuce")
+        # elif any(i >= 4 for i in self.scoreboard.values()):
+        #     diff =
+        #     if (diff == 1):
+        #         result ="Advantage " + self.player1Name
+        #     elif (diff ==-1):
+        #         result ="Advantage " + self.player2Name
+        #     elif (diff>=2):
+        #         result = "Win for " + self.player1Name
+        #     else:
+        #         result ="Win for " + self.player2Name
+        # else:
+        #     for i in range(1,3):
+        #         if (i==1):
+        #             temp_score = self.p1points
+        #         else:
+        #             result+="-"
+        #             temp_score = self.p2points
+        #         result += {
+        #             0 : "Love",
+        #             1 : "Fifteen",
+        #             2 : "Thirty",
+        #             3 : "Forty",
+        #         }[temp_score]
 
 
 class TennisGame2:
+    RESULTS = ["Love", "Fifteen", "Thirty", "Forty"]
+
     def __init__(self, player1Name, player2Name):
         self.player1Name = player1Name
         self.player2Name = player2Name
-        self.p1points = 0
-        self.p2points = 0
-        
+        self.scoreboard = {
+            self.player1Name: 0,
+            self.player2Name: 0
+        }
+        self.diff = 0
+
     def won_point(self, playerName):
-        if playerName == self.player1Name:
-            self.P1Score()
-        else:
-            self.P2Score()
-    
+        self.scoreboard[playerName] += 1
+        self.diff = self.scoreboard[self.player1Name] - self.scoreboard[self.player2Name]
+
     def score(self):
-        result = ""
-        if (self.p1points == self.p2points and self.p1points < 3):
-            if (self.p1points==0):
-                result = "Love"
-            if (self.p1points==1):
-                result = "Fifteen"
-            if (self.p1points==2):
-                result = "Thirty"
-            result += "-All"
-        if (self.p1points==self.p2points and self.p1points>2):
-            result = "Deuce"
-        
-        P1res = ""
-        P2res = ""
-        if (self.p1points > 0 and self.p2points==0):
-            if (self.p1points==1):
-                P1res = "Fifteen"
-            if (self.p1points==2):
-                P1res = "Thirty"
-            if (self.p1points==3):
-                P1res = "Forty"
-            
-            P2res = "Love"
-            result = P1res + "-" + P2res
-        if (self.p2points > 0 and self.p1points==0):
-            if (self.p2points==1):
-                P2res = "Fifteen"
-            if (self.p2points==2):
-                P2res = "Thirty"
-            if (self.p2points==3):
-                P2res = "Forty"
-            
-            P1res = "Love"
-            result = P1res + "-" + P2res
-        
-        
-        if (self.p1points>self.p2points and self.p1points < 4):
-            if (self.p1points==2):
-                P1res="Thirty"
-            if (self.p1points==3):
-                P1res="Forty"
-            if (self.p2points==1):
-                P2res="Fifteen"
-            if (self.p2points==2):
-                P2res="Thirty"
-            result = P1res + "-" + P2res
-        if (self.p2points>self.p1points and self.p2points < 4):
-            if (self.p2points==2):
-                P2res="Thirty"
-            if (self.p2points==3):
-                P2res="Forty"
-            if (self.p1points==1):
-                P1res="Fifteen"
-            if (self.p1points==2):
-                P1res="Thirty"
-            result = P1res + "-" + P2res
-        
-        if (self.p1points > self.p2points and self.p2points >= 3):
-            result = "Advantage " + self.player1Name
-        
-        if (self.p2points > self.p1points and self.p1points >= 3):
-            result = "Advantage " + self.player2Name
-        
-        if (self.p1points>=4 and self.p2points>=0 and (self.p1points-self.p2points)>=2):
-            result = "Win for " + self.player1Name
-        if (self.p2points>=4 and self.p1points>=0 and (self.p2points-self.p1points)>=2):
-            result = "Win for " + self.player2Name
-        return result
-    
-    def SetP1Score(self, number):
-        for i in range(number):
-            self.P1Score()
-    
-    def SetP2Score(self, number):
-        for i in range(number):
-            self.P2Score()
-    
-    def P1Score(self):
-        self.p1points +=1
-    
-    
-    def P2Score(self):
-        self.p2points +=1
-        
+        if self.diff == 0:
+            return TennisGame2.RESULTS[self.scoreboard[self.player1Name]] + "-All" if self.scoreboard[
+                                                                                          self.player1Name] < 3 else "Deuce"
+        elif any(i >= 4 for i in self.scoreboard.values()):
+            name = self.player2Name if self.diff < 0 else self.player1Name
+            return "Advantage " + name if (abs(self.diff) < 2) else "Win for " + name
+
+        return TennisGame2.RESULTS[self.scoreboard[self.player1Name]] + "-" + TennisGame2.RESULTS[
+            self.scoreboard[self.player2Name]]
+
+
 class TennisGame3:
+    RESULTS = ["Love", "Fifteen", "Thirty", "Forty"]
+
     def __init__(self, player1Name, player2Name):
         self.p1N = player1Name
         self.p2N = player2Name
         self.p1 = 0
         self.p2 = 0
-        
-    def won_point(self, n):
-        if n == self.p1N:
+
+    def won_point(self, name):
+        if name == self.p1N:
             self.p1 += 1
         else:
             self.p2 += 1
-    
+
     def score(self):
         if (self.p1 < 4 and self.p2 < 4) and (self.p1 + self.p2 < 6):
-            p = ["Love", "Fifteen", "Thirty", "Forty"]
-            s = p[self.p1]
-            return s + "-All" if (self.p1 == self.p2) else s + "-" + p[self.p2]
+            score = TennisGame3.RESULTS[self.p1]
+            return score + "-All" if (self.p1 == self.p2) else score + "-" + TennisGame3.RESULTS[self.p2]
         else:
-            if (self.p1 == self.p2):
+            if self.p1 == self.p2:
                 return "Deuce"
-            s = self.p1N if self.p1 > self.p2 else self.p2N
-            return "Advantage " + s if ((self.p1-self.p2)*(self.p1-self.p2) == 1) else "Win for " + s
+            score = self.p1N if self.p1 > self.p2 else self.p2N
+            return "Advantage " + score if (abs(self.p1 - self.p2) == 1) else "Win for " + score
