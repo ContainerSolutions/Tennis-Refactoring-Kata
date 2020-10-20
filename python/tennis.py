@@ -44,37 +44,6 @@ class TennisGame1:
             return TennisGame1.RESULTS[self.scoreboard[TennisGame1.FIRST]] + "-" + TennisGame1.RESULTS[
                 self.scoreboard[TennisGame1.SECOND]]
 
-            # if (self.p1points==self.p2points):
-        #     result = {
-        #         0 : "Love-All",
-        #         1 : "Fifteen-All",
-        #         2 : "Thirty-All",
-        #     }.get(self.p1points, "Deuce")
-        # elif any(i >= 4 for i in self.scoreboard.values()):
-        #     diff =
-        #     if (diff == 1):
-        #         result ="Advantage " + self.player1Name
-        #     elif (diff ==-1):
-        #         result ="Advantage " + self.player2Name
-        #     elif (diff>=2):
-        #         result = "Win for " + self.player1Name
-        #     else:
-        #         result ="Win for " + self.player2Name
-        # else:
-        #     for i in range(1,3):
-        #         if (i==1):
-        #             temp_score = self.p1points
-        #         else:
-        #             result+="-"
-        #             temp_score = self.p2points
-        #         result += {
-        #             0 : "Love",
-        #             1 : "Fifteen",
-        #             2 : "Thirty",
-        #             3 : "Forty",
-        #         }[temp_score]
-
-
 class TennisGame2:
     RESULTS = ["Love", "Fifteen", "Thirty", "Forty"]
 
