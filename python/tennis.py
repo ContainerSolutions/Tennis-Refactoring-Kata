@@ -131,14 +131,25 @@ class TennisGame3:
         else:
             self.p2 += 1
 
-    def score(self):
+    # check that neither score is above forty, and both
+    #  scores are less than 6 in total, i.e. not deuce
+    def checkZeroToTwo(self):
         if (self.p1 < 4 and self.p2 < 4) and (self.p1 + self.p2 < 6):
             p = ["Love", "Fifteen", "Thirty", "Forty"]
             s = p[self.p1]
             return s + "-All" if (self.p1 == self.p2) else s + "-" + p[self.p2]
+
+    # check if the score is deuce, otherwise determine
+    #  if the score is advantage or it's a win!
+    def checkThreePlus(self):
+        if (self.p1 == self.p2):
+            return "Deuce"
+        s = self.p1N if self.p1 > self.p2 else self.p2N
+        return "Advantage " + s if ((self.p1-self.p2)
+                                    * (self.p1-self.p2) == 1) else "Win for " + s
+
+    def score(self):
+        if self.checkZeroToTwo():
+            return self.checkZeroToTwo()
         else:
-            if (self.p1 == self.p2):
-                return "Deuce"
-            s = self.p1N if self.p1 > self.p2 else self.p2N
-            return "Advantage " + s if ((self.p1-self.p2)
-                                        * (self.p1-self.p2) == 1) else "Win for " + s
+            return self.checkThreePlus()
